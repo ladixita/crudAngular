@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "amcrud-cf48c": {
+      "hosting": {
+        "simplecrudMaterial": [
+          "amcrud-cf48c"
+        ]
+      }
+    }
+  }
+}

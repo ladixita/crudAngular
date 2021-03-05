@@ -1,0 +1,61 @@
+<mat-toolbar>
+    <span>{{service.form.controls['$key'].value?"Modificar Trabajador":"Nuevo Trabajador"}}</span>
+    <span class="fill-remaining-space"></span>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabindex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="service.form" (submit)="onSubmit()" class="normal-form">
+    <mat-grid-list cols="2" rowHeight="300px">
+        <mat-grid-tile>
+            <div class="controles-container">
+                <input type="hidden" formControlName="$key">
+                <mat-form-field>
+                    <input formControlName="nombre" type="text" matInput placeholder="Nombre completo">
+                    <mat-error>Este campo es obligatorio</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="email" type="text" matInput placeholder="Email">
+                    <mat-error>Email inválido</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="telefono" type="text" matInput placeholder="Telefono">
+                    <mat-error *ngIf="service.form.controls['telefono'].errors?.required">Este campo es obligatorio</mat-error>
+                    <mat-error *ngIf="service.form.controls['telefono'].errors?.minlength">Minimo 9 numeros se debe ingresar</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="ciudad" type="text" matInput placeholder="Ciudad">
+                </mat-form-field>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div class="controles-container">
+                <div class="add-bottom-padding">
+                    <mat-radio-group formControlName="genero">
+                        <mat-radio-button value="1">Hombre</mat-radio-button>
+                        <mat-radio-button value="2">Mujer</mat-radio-button>
+                        <mat-radio-button value="3">Otro</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <mat-form-field>
+                    <mat-select formControlName="department" placeholder="Departamento">
+                        <mat-option>--Ninguno--</mat-option>
+                        <ng-container *ngFor="let department of departmentService.array">
+                            <mat-option value="{{department.$key}}">{{department.codigo}}-{{department.nombre}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="fecha" matInput [matDatepicker]="picker" placeholder="Fecha">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <div class="add-bottom-padding">
+                    <mat-checkbox formControlName="estado">Estado Empleado</mat-checkbox>
+                </div>
+                <div class="button-row">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="service.form.invalid">Enviar</button>
+                    <button mat-raised-button color="warn" (click)="limpiar()">Limpiar</button>
+                </div>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>
